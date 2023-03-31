@@ -3,6 +3,9 @@ package com.example.randomastronomy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
@@ -13,8 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val button = findViewById<Button>(R.id.astronomyButton)
+        val imageView = findViewById<ImageView>(R.id.astronomyImage)
+
         getAstronomyImageURL()
-        Log.d("petImageURL", "pet image URL set")
+        getNextImage(button, imageView)
     }
 
     private fun getAstronomyImageURL() {
@@ -39,4 +45,16 @@ class MainActivity : AppCompatActivity() {
             }
         }]
     }
+
+    private fun getNextImage(button: Button, imageView: ImageView) {
+        button.setOnClickListener {
+            getAstronomyImageURL()
+
+            Glide.with(this)
+                . load(astronomyImageURL)
+                .fitCenter()
+                .into(imageView)
+        }
+    }
+
 }
